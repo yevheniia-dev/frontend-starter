@@ -1,0 +1,13 @@
+@use '../utils/mixins';
+
+.section-a {
+	padding: 40px 0;
+}
+
+.section-a__text {
+	@include mixins.visually-hidden;
+}
+
+.section-a__button {
+	margin-top: 20px;
+}

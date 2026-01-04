@@ -1,0 +1,21 @@
+{
+	// === Indentation ===
+	"editor.insertSpaces": false,
+	"editor.tabSize": 4,
+	"editor.detectIndentation": false,
+
+	// === Formatting ===
+	"editor.formatOnSave": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+
+	// === Language specific (на всякий случай) ===
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[scss]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[pug]": {
+		"editor.formatOnSave": false
+	}
+}

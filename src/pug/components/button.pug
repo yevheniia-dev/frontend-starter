@@ -1,0 +1,34 @@
+mixin button(props)
+  -
+    var text = props.text || ''
+    var type = props.type || 'button'
+
+    var baseClass = 'button'
+    var modClass = props.mod ? ' button--' + props.mod : ''
+    var parentClass = props.parent ? ' ' + props.parent + '__button' : ''
+
+    var classes = baseClass + modClass + parentClass
+    var data = props.data || {}
+
+  button(
+    type=type
+    class=classes
+  )&attributes(data) #{text}
+
+
+//-{
+  text: 'Buy',
+  type: 'button',              // optional
+  mod: 'primary',              // button--primary
+  parent: 'product-card',      // product-card__button
+  data: { ... }                // optional
+  } 
+  <button
+  class="button button--primary product-card__button"
+  type="button"
+  data-id="123"
+  data-action="add-to-cart"
+  >
+    Buy now
+  </button>
+

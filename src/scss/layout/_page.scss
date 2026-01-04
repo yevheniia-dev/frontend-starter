@@ -1,0 +1,26 @@
+/* ======================================
+   Page layout
+   ====================================== */
+
+.page {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Main content grows, footer sticks to bottom */
+.page__main {
+	flex: 1 0 auto;
+}
+
+/* Footer does not shrink */
+.page__footer {
+	flex-shrink: 0;
+}
+
+/* Container */
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 16px;
+}

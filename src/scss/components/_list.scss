@@ -1,0 +1,12 @@
+@use '../utils/variables' as vars;
+
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.list__link {
+	text-decoration: underline;
+	color: vars.$color-accent;
+}

@@ -1,0 +1,17 @@
+include ../components/list
+
+section.section-b
+  .container
+    h2 Section B
+
+    +list({
+      parent: 'section-b',
+      items: [
+        { text: 'First item' },
+        { text: 'Second item' },
+        { 
+          text: 'Third item',
+          href: '#'
+        }
+      ]
+    })

@@ -1,0 +1,16 @@
+include ../components/button
+
+section.section-a
+  .container
+    h2 Section A
+      .section-a__text Visually-hidden
+      +button({
+        text: 'Buy now',
+        mod: 'primary',
+        parent: 'section-a',
+        data: {
+          'data-id': '123',
+          'data-action': 'add-to-cart'
+        }
+      })
+

@@ -1,0 +1,24 @@
+/* ======================================
+   Colors (abstract)
+   ====================================== */
+
+$color-black: #000000;
+$color-white: #ffffff;
+$color-gray: #cccccc;
+$color-accent: #5b7fff;
+
+/* ======================================
+   Typography
+   ====================================== */
+
+$font-base: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont,
+	'Segoe UI', Arial, sans-serif;
+
+/* ======================================
+   Brackpoint
+   ====================================== */
+
+$mobile-width: 320px;
+$tablet-width: 767px;
+$desktop-width: 1023px;
+$desktop: 1366px;

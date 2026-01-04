@@ -1,0 +1,18 @@
+html,
+body {
+	min-height: 100%;
+}
+
+body {
+	overflow-x: hidden;
+}
+
+.visually-hidden:not(:focus):not(:active),
+input[type='checkbox'].visually-hidden,
+input[type='radio'].visually-hidden {
+	position: absolute;
+	clip: rect(1px, 1px, 1px, 1px);
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}

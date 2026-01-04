@@ -1,0 +1,20 @@
+doctype html
+html(lang="de")
+  head
+    block vars
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title= siteTitle || 'Starter'
+    link(rel="stylesheet" href="css/style.css")
+
+  body.page
+    .page__header
+      include ../blocks/header
+
+    .page__main
+      block content
+
+    .page__footer
+      include ../blocks/footer
+
+    script(src="js/main.js")
