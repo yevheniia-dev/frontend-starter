@@ -13,100 +13,109 @@ const clean = require('gulp-clean');
 
 const browserSync = require('browser-sync').create();
 
+/* paths */
 const paths = {
-  pug: {
-    src: 'src/pug/templates/*.pug',
-    watch: 'src/pug/**/*.pug',
-    dest: 'dist/'
-  },
-  scss: {
-    src: 'src/scss/style.scss',
-    watch: 'src/scss/**/*.scss',
-    dest: 'dist/css/'
-  },
-  js: {
-    src: 'src/js/**/*.js',
-    dest: 'dist/js/'
-  },
-  img: {
-    src: 'src/img/**/*',
-    dest: 'dist/img/'
-  },
-  fonts: {
-    src: 'src/fonts/**/*',
-    dest: 'dist/fonts/'
-  }
+	pug: {
+		src: 'src/pug/templates/*.pug',
+		watch: 'src/pug/**/*.pug',
+		dest: 'dist/',
+	},
+	scss: {
+		src: 'src/scss/style.scss',
+		watch: 'src/scss/**/*.scss',
+		dest: 'dist/css/',
+	},
+	js: {
+		src: 'src/js/**/*.js',
+		watch: 'src/js/**/*.js',
+		dest: 'dist/js/',
+	},
+	img: {
+		src: 'src/img/**/*',
+		watch: 'src/img/**/*',
+		dest: 'dist/img/',
+	},
+	fonts: {
+		src: 'src/fonts/**/*',
+		watch: 'src/fonts/**/*',
+		dest: 'dist/fonts/',
+	},
 };
 
-// clean dist
+/* clean */
 function cleanDist() {
-  return src('dist/', { allowEmpty: true })
-    .pipe(clean());
+	return src('dist/', { allowEmpty: true, read: false }).pipe(clean());
 }
 
-// pug -> html
+/* pug -> html */
 function compilePug() {
-  return src(paths.pug.src)
-    .pipe(pug({ pretty: true }))
-    .pipe(dest(paths.pug.dest))
-    .pipe(browserSync.stream());
+	return src(paths.pug.src)
+		.pipe(pug({ pretty: true }))
+		.pipe(dest(paths.pug.dest))
+		.pipe(browserSync.stream());
 }
 
-// scss -> css
+/* scss -> css */
 function compileScss() {
-  return src(paths.scss.src)
-    .pipe(sourcemaps.init())
-    .pipe(gulpSass())
-    .pipe(postcss([autoprefixer()]))
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest(paths.scss.dest))
-    .pipe(browserSync.stream());
+	return src(paths.scss.src)
+		.pipe(sourcemaps.init())
+		.pipe(gulpSass().on('error', gulpSass.logError))
+		.pipe(postcss([autoprefixer()]))
+		.pipe(sourcemaps.write('.'))
+		.pipe(dest(paths.scss.dest))
+		.pipe(browserSync.stream());
 }
 
-// copy js
+/* js */
 function copyJs() {
-  return src(paths.js.src)
-    .pipe(dest(paths.js.dest))
-    .pipe(browserSync.stream());
+	return src(paths.js.src)
+		.pipe(dest(paths.js.dest))
+		.pipe(browserSync.stream());
 }
 
-// copy images
+/* images — ТОЛЬКО бинарь */
 function copyImg() {
-  return src(paths.img.src)
-    .pipe(dest(paths.img.dest))
-    .pipe(browserSync.stream());
+	return src(paths.img.src, { encoding: false }).pipe(dest(paths.img.dest));
 }
 
-// copy fonts
+/* fonts — ТОЛЬКО бинарь */
 function copyFonts() {
-  return src(paths.fonts.src)
-    .pipe(dest(paths.fonts.dest))
-    .pipe(browserSync.stream());
+	return src(paths.fonts.src, { encoding: false }).pipe(
+		dest(paths.fonts.dest)
+	);
 }
 
-// dev server
+/* server */
 function serve() {
-  browserSync.init({
-    server: { baseDir: 'dist/' },
-    notify: false,
-    open: false
-  });
+	browserSync.init({
+		server: {
+			baseDir: 'dist/',
+		},
+		notify: false,
+		open: false,
+	});
 
-  watch(paths.pug.watch, compilePug);
-  watch(paths.scss.watch, compileScss);
-  watch(paths.js.src, copyJs);
-  watch(paths.img.src, copyImg);
-  watch(paths.fonts.src, copyFonts);
+	watch(paths.pug.watch, compilePug);
+	watch(paths.scss.watch, compileScss);
+	watch(paths.js.watch, copyJs);
+	watch(paths.img.watch, series(copyImg, reload));
+	watch(paths.fonts.watch, series(copyFonts, reload));
 }
 
-// exports
+function reload(done) {
+	browserSync.reload();
+	done();
+}
+
+/* build */
 exports.build = series(
-  cleanDist,
-  parallel(compilePug, compileScss, copyJs, copyImg, copyFonts)
+	cleanDist,
+	parallel(compilePug, compileScss, copyJs, copyImg, copyFonts)
 );
 
+/* dev */
 exports.default = series(
-  cleanDist,
-  parallel(compilePug, compileScss, copyJs, copyImg, copyFonts),
-  serve
+	cleanDist,
+	parallel(compilePug, compileScss, copyJs, copyImg, copyFonts),
+	serve
 );
